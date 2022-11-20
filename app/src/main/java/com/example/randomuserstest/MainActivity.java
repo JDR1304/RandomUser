@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+
 import com.example.randomuserstest.model.Result;
+import com.example.randomuserstest.model.Users;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,38 +41,41 @@ public class MainActivity extends AppCompatActivity {
 
         Map <String, String> params = new HashMap<>();
         params.put("results", "5");
-        params.put("inc", "name");
+        params.put("inc", "name,email");
         params.put("noinfo", "");
 
         RandomUserAPI randomUserAPI = retrofit.create(RandomUserAPI.class);
 
-        Call<Result> call = randomUserAPI.getResults();
+        Call <Users> call = randomUserAPI.getResults(params);
 
-        call.enqueue(new Callback<Result>() {
+        call.enqueue(new Callback<Users>() {
             @Override
-            public void onResponse(Call<Result> call, Response<Result> response) {
+            public void onResponse(Call<Users> call, Response<Users> response) {
 
                 Log.e("MainActivity *********", response.body().toString());
                 if (!response.isSuccessful()){
                     textView.setText("Code: " + response.code());
                     return;
                 }
-                Result list = response.body();
+                Users user = response.body();
+                List <Result> list = user.getResults();
+                String content = "";
+                for (int i = 0; i<list.size(); i++) {
+                    Log.e(TAG, "test : " + list);
+                    content += "Title " + list.get(i).getName().getTitle() + "\n";
+                    content += "First name " + list.get(i).getName().getFirst() + "\n";
+                    content += "Last name " + list.get(i).getName().getLast() + "\n";
+                    content += "email " + list.get(i).getEmail() + "\n\n";
 
-                Log.e(TAG,"test : "+list.getName());
-                    /*String content = "";
-                    content += "Title" + list.getName().getTitle()+ "\n";
-                    content += "First name "+ list.getName().getFirst()+ "\n";
-                    content += "Last name "+ list.getName().getLast()+"\n\n";
-                    textView.append(content);*/
+                }
+                textView.append(content);
                 }
 
             @Override
-            public void onFailure(Call<Result> call, Throwable t) {
+            public void onFailure(Call<Users> call, Throwable t) {
                 textView.setText(t.getMessage());
             }
 
         });
-        Log.e(TAG,"test");
     }
 }

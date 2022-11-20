@@ -8,6 +8,12 @@ public class Result {
     @SerializedName("name")
     @Expose
     private Name name;
+    @SerializedName("email")
+    @Expose
+    private String email;
+    @SerializedName("picture")
+    @Expose
+    private Picture picture;
 
     public Name getName() {
         return name;
@@ -15,5 +21,21 @@ public class Result {
 
     public void setName(Name name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Picture getPicture() {
+        return picture;
+    }
+
+    public void setPicture(Picture picture) {
+        this.picture = picture;
     }
 }

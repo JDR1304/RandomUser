@@ -1,6 +1,7 @@
 package com.example.randomuserstest;
 
 import com.example.randomuserstest.model.Result;
+import com.example.randomuserstest.model.Users;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,7 @@ import retrofit2.http.QueryMap;
 public interface RandomUserAPI {
 
     // Request REST from type Get with complement URL
-    @GET("api/?results=5&inc=name&noinfo")
-    Call <Result> getResults();
+    @GET("api/")
+    Call <Users> getResults(@QueryMap Map<String, String> params);
 
 }
