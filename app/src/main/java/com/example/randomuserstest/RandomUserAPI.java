@@ -1,9 +1,7 @@
 package com.example.randomuserstest;
 
-import com.example.randomuserstest.model.Result;
 import com.example.randomuserstest.model.Users;
 
-import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;

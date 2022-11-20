@@ -7,13 +7,13 @@ import com.google.gson.annotations.SerializedName;
 public class Users {
     @SerializedName("results")
     @Expose
-    private List<Result> results = null;
+    private List<User> results = null;
 
-    public List <Result> getResults() {
+    public List <User> getResults() {
         return results;
     }
 
-    public void setResults(List<Result> results) {
+    public void setResults(List<User> results) {
         this.results = results;
     }
 }

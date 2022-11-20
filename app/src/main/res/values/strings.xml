@@ -4,4 +4,7 @@
     <string name="name">name</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="last_name">Last_name</string>
+    <string name="email">email</string>
+    <string name="user_image">user_image</string>
 </resources>

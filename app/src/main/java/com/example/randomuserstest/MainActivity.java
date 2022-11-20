@@ -3,15 +3,15 @@ package com.example.randomuserstest;
 import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
 
-import com.example.randomuserstest.model.Result;
+import com.example.randomuserstest.model.User;
 import com.example.randomuserstest.model.Users;
 
 import java.util.HashMap;
@@ -25,14 +25,16 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-//https://randomuser.me/api/?results=5&inc=name,picture&noinfo
-    TextView textView;
+
+    RecyclerView recyclerView;
+    UserRecyclerViewAdapter userRecyclerViewAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.textview);
+        recyclerView = findViewById(R.id.recycler_view);
+
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://randomuser.me/")
@@ -40,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         Map <String, String> params = new HashMap<>();
-        params.put("results", "5");
-        params.put("inc", "name,email");
+        params.put("results", "12");
+        params.put("inc", "name,email,picture");
         params.put("noinfo", "");
 
         RandomUserAPI randomUserAPI = retrofit.create(RandomUserAPI.class);
@@ -54,26 +56,19 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.e("MainActivity *********", response.body().toString());
                 if (!response.isSuccessful()){
-                    textView.setText("Code: " + response.code());
                     return;
                 }
                 Users user = response.body();
-                List <Result> list = user.getResults();
-                String content = "";
-                for (int i = 0; i<list.size(); i++) {
-                    Log.e(TAG, "test : " + list);
-                    content += "Title " + list.get(i).getName().getTitle() + "\n";
-                    content += "First name " + list.get(i).getName().getFirst() + "\n";
-                    content += "Last name " + list.get(i).getName().getLast() + "\n";
-                    content += "email " + list.get(i).getEmail() + "\n\n";
+                List <User> list = user.getResults();
+                userRecyclerViewAdapter = new UserRecyclerViewAdapter(list);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                recyclerView.setAdapter(userRecyclerViewAdapter);
 
-                }
-                textView.append(content);
                 }
 
             @Override
             public void onFailure(Call<Users> call, Throwable t) {
-                textView.setText(t.getMessage());
+
             }
 
         });
