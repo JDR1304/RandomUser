@@ -1,41 +1,40 @@
-package com.example.randomuserstest;
-
-import static android.content.ContentValues.TAG;
+package com.example.randomuserstest.Ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.TextView;
 
 
+import com.example.randomuserstest.R;
+
+import com.example.randomuserstest.injection.FactoryViewModelMainActivity;
+import com.example.randomuserstest.injection.Injection;
 import com.example.randomuserstest.model.User;
-import com.example.randomuserstest.model.Users;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-    UserRecyclerViewAdapter userRecyclerViewAdapter;
+    private RecyclerView recyclerView;
+    private UserRecyclerViewAdapter userRecyclerViewAdapter;
+    private MainActivityViewModel mainActivityViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         recyclerView = findViewById(R.id.recycler_view);
+        initViewModel();
+        getUsers();
 
 
+        //mainActivityViewModel.getUsers();
+
+/*
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://randomuser.me/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -71,6 +70,25 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-        });
+        });*/
+    }
+
+    public void initViewModel (){
+        FactoryViewModelMainActivity viewModelFactory = Injection.provideViewModelFactory(this);
+        this.mainActivityViewModel = ViewModelProviders.of(this, viewModelFactory).get(MainActivityViewModel.class);
+    }
+
+    public void getUsers(){
+        Observer<List<User>> results = new Observer <List<User>>(){
+
+            @Override
+            public void onChanged(List<User> users) {
+                userRecyclerViewAdapter = new UserRecyclerViewAdapter(users);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                recyclerView.setAdapter(userRecyclerViewAdapter);
+                mainActivityViewModel.setUsersInBdd(users);
+            }
+        };
+        mainActivityViewModel.getUsers().observe(this, results);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.randomuserstest;
+package com.example.randomuserstest.Ui;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.randomuserstest.R;
 import com.example.randomuserstest.model.User;
 
 import java.util.List;
 
 public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerViewAdapter.UserViewHolder> {
 
-    private List<User> users;
+    private final List<User> users;
 
     public UserRecyclerViewAdapter(List<User> users) {
         this.users = users;
@@ -49,12 +50,12 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
         return users.size();
     }
 
-    public class UserViewHolder extends RecyclerView.ViewHolder {
+    public static class UserViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView userImage;
-        private TextView firstName;
-        private TextView lastName;
-        private TextView email;
+        private final ImageView userImage;
+        private final TextView firstName;
+        private final TextView lastName;
+        private final TextView email;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
