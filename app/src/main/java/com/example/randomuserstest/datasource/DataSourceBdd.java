@@ -9,10 +9,7 @@ import java.util.List;
 
 public class DataSourceBdd {
 
-    private UserDao userDao;
-
-    public DataSourceBdd(){
-    }
+    private final UserDao userDao;
 
     public DataSourceBdd(UserDao userDao) {
         this.userDao = userDao;

@@ -16,12 +16,14 @@ import java.util.concurrent.Executors;
 
 public class Injection {
 
-    public static DataSourceBdd provideDataSourceBdd(Context context){
+    public static DataSourceBdd provideDataSourceBdd(Context context) {
         RandomUsersDataBase database = RandomUsersDataBase.getInstance(context);
         return new DataSourceBdd(database.userDao());
     }
 
-    public static MutableLiveData<List<User>> provideMutableLiveData(){return new MutableLiveData<>();}
+    public static MutableLiveData<List<User>> provideMutableLiveData() {
+        return new MutableLiveData<>();
+    }
 
     public static UserDataRepository provideUserDataSource(Context context) {
         DataSourceApi dataSourceApi = new DataSourceApi(provideMutableLiveData());
@@ -29,7 +31,9 @@ public class Injection {
         return new UserDataRepository(dataSourceApi, dataSourceBdd, context);
     }
 
-    public static Executor provideExecutor(){ return Executors.newSingleThreadExecutor(); }
+    public static Executor provideExecutor() {
+        return Executors.newSingleThreadExecutor();
+    }
 
     public static FactoryViewModelMainActivity provideViewModelFactory(Context context) {
         UserDataRepository userDataRepository = provideUserDataSource(context);

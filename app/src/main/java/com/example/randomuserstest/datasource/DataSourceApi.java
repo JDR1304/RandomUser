@@ -1,18 +1,14 @@
 package com.example.randomuserstest.datasource;
 
-import android.util.Log;
-
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
 import com.example.randomuserstest.RandomUserAPI;
 import com.example.randomuserstest.model.User;
 import com.example.randomuserstest.model.Users;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -22,8 +18,7 @@ import retrofit2.Response;
 public class DataSourceApi {
 
     private List<User> listUsers;
-    private MutableLiveData<List<User>> usersMutableLiveData;
-
+    private final MutableLiveData<List<User>> usersMutableLiveData;
 
     public DataSourceApi(MutableLiveData<List<User>> usersMutableLiveData) {
         this.usersMutableLiveData = usersMutableLiveData;
@@ -47,20 +42,21 @@ public class DataSourceApi {
 
         call.enqueue(new Callback<Users>() {
             @Override
-            public void onResponse(Call<Users> call, Response<Users> response) {
+            public void onResponse(@NonNull Call<Users> call, @NonNull Response<Users> response) {
 
-                Log.e("MainActivity *********", response.body().toString());
                 if (!response.isSuccessful()) {
                     return;
                 }
                 Users user = response.body();
-                listUsers = user.getResults();
-                usersMutableLiveData.setValue(listUsers);
 
+                if (user!=null) {
+                    listUsers = user.getResults();
+                }
+                usersMutableLiveData.setValue(listUsers);
             }
 
             @Override
-            public void onFailure(Call<Users> call, Throwable t) {
+            public void onFailure(@NonNull Call<Users> call, @NonNull Throwable t) {
 
             }
         });

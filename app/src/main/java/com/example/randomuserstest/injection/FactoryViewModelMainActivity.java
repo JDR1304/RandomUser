@@ -1,15 +1,12 @@
 package com.example.randomuserstest.injection;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.randomuserstest.Ui.MainActivityViewModel;
-import com.example.randomuserstest.model.User;
 import com.example.randomuserstest.repository.UserDataRepository;
 
-import java.util.List;
 import java.util.concurrent.Executor;
 
 public class FactoryViewModelMainActivity implements ViewModelProvider.Factory  {

@@ -1,10 +1,8 @@
 package com.example.randomuserstest.repository;
 
-
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.example.randomuserstest.Utils;
 import com.example.randomuserstest.datasource.DataSourceApi;
@@ -15,18 +13,19 @@ import java.util.List;
 
 public class UserDataRepository {
 
-    private DataSourceBdd dataSourceBdd;
-    private DataSourceApi dataSourceApi;
-    private Context context;
+    private final DataSourceBdd dataSourceBdd;
+    private final DataSourceApi dataSourceApi;
+    private final Context context;
 
-    public UserDataRepository (DataSourceApi dataSourceApi, DataSourceBdd dataSourceBdd, Context context){
+    public UserDataRepository(DataSourceApi dataSourceApi, DataSourceBdd dataSourceBdd,
+                              Context context) {
         this.dataSourceApi = dataSourceApi;
         this.dataSourceBdd = dataSourceBdd;
         this.context = context;
     }
 
-    public LiveData<List<User>> getUsers(){
-        if(Utils.isInternetAvailable(context)){
+    public LiveData<List<User>> getUsers() {
+        if (Utils.isInternetAvailable(context)) {
             //get users from api if internet available
             return dataSourceApi.getUsersFromAPi();
         } else {
